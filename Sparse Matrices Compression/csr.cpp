@@ -135,9 +135,11 @@ void CSR::dump() {
 		for (int i = 0; i < m_nonzeros; i++)
 			cout << m_values[i] << " ";
 		cout << endl;
+		cout << "col: ";
 		for (int i = 0; i < m_nonzeros; i++)
 			cout << m_col_index[i] << " ";
 		cout << endl;
+		cout << "row: ";
 		for (int i = 0; i < m_m + 1; i++)
 			cout << m_row_index[i] << " ";
 	}
