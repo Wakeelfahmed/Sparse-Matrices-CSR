@@ -59,17 +59,14 @@ void CSR::compress(int m, int n, int array[], int arraySize) {
 			m_nonzeros++;
 		}
 	}
-	//cout << "# of Non Zeros " << m_nonzeros << endl;
-	//cout << "Array Size " << arraySize << endl;
-	//cout << "Array Received in compress fln is ";
-	//for (int i = 0; i < arraySize; i++)
-	//{
-	//	cout << array[i] << "\t";
-	//	if (i % (m_n - 1) == 0 && i != 0)
-	//		cout << "\n";
-	//}cout << "\n";
-	// Allocate memory for arrays
+
 	m_values = new int[m_nonzeros];
+	cout << "Before populating:" << endl;
+	for (int i = 0; i < m_nonzeros; i++)
+	{
+		m_values[i] = 0;
+		cout << "at " << i << " " << m_values[i] << endl;
+	}cout << endl;
 	m_col_index = new int[m_nonzeros];
 	m_row_index = new int[m_m + 1];
 
@@ -77,29 +74,42 @@ void CSR::compress(int m, int n, int array[], int arraySize) {
 	m_row_index[0] = 0;
 
 	// Populate arrays
+	cout << "\nPopulating:" << endl;
 	for (int i = 0; i < m_m; ++i) {
 		for (int j = 0; j < m_n; ++j) {
 			int index = i * m_n + j;
 			if (array[index] != 0) {
 				m_values[valueIndex] = array[index];
+				cout << "at " << valueIndex << " " << m_values[valueIndex] << endl;
 				m_col_index[valueIndex] = j;
 				valueIndex++;
 			}
 		}
 		m_row_index[i + 1] = valueIndex; // Updated row index properly
 	}
+	cout << "\nafter populating:" << endl;
+	for (int i = 0; i < m_nonzeros; i++)
+	{
+		cout << "at " << i << " " << m_values[i] << endl;
+	}cout << endl;
 }
 int CSR::getAt(int row, int  col) const {
+	int test = 0;
 	if (row < 0 || row >= m_m || col < 0 || col >= m_n) {
 		throw std::runtime_error("Index out of bounds");
 	}
 
 	for (int i = m_row_index[row]; i < m_row_index[row + 1]; ++i) {
 		if (m_col_index[i] == col) {
+			if (m_values[i] == NULL)
+				return 0;
+			test = m_values[i];
 			return m_values[i];
 		}
 	}
-	throw std::runtime_error("Index does not exist");
+	// If the element is not found in the compressed data, it's a zero element
+	return 0;
+	//throw std::runtime_error("Index does not exist");
 }
 bool CSR::operator==(const CSR& rhs) const {
 	if (m_m != rhs.m_m || m_n != rhs.m_n || m_nonzeros != rhs.m_nonzeros) {
