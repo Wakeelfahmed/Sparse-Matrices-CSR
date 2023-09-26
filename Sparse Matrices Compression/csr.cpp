@@ -61,12 +61,12 @@ void CSR::compress(int m, int n, int array[], int arraySize) {
 	}
 
 	m_values = new int[m_nonzeros];
-	cout << "Before populating:" << endl;
+	/*cout << "Before populating:" << endl;
 	for (int i = 0; i < m_nonzeros; i++)
 	{
 		m_values[i] = 0;
 		cout << "at " << i << " " << m_values[i] << endl;
-	}cout << endl;
+	}cout << endl;*/
 	m_col_index = new int[m_nonzeros];
 	m_row_index = new int[m_m + 1];
 
@@ -74,24 +74,24 @@ void CSR::compress(int m, int n, int array[], int arraySize) {
 	m_row_index[0] = 0;
 
 	// Populate arrays
-	cout << "\nPopulating:" << endl;
+	/*cout << "\nPopulating:" << endl;*/
 	for (int i = 0; i < m_m; ++i) {
 		for (int j = 0; j < m_n; ++j) {
 			int index = i * m_n + j;
 			if (array[index] != 0) {
 				m_values[valueIndex] = array[index];
-				cout << "at " << valueIndex << " " << m_values[valueIndex] << endl;
+				//cout << "at " << valueIndex << " " << m_values[valueIndex] << endl;
 				m_col_index[valueIndex] = j;
 				valueIndex++;
 			}
 		}
 		m_row_index[i + 1] = valueIndex; // Updated row index properly
 	}
-	cout << "\nafter populating:" << endl;
+	/*cout << "\nafter populating:" << endl;
 	for (int i = 0; i < m_nonzeros; i++)
 	{
 		cout << "at " << i << " " << m_values[i] << endl;
-	}cout << endl;
+	}cout << endl;*/
 }
 int CSR::getAt(int row, int  col) const {
 	int test = 0;
